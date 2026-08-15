@@ -57,7 +57,29 @@ export default function StrukturOrganisasi() {
     }, []);
 
     const kepalaDesa = pimpinan.find(p => p.posisi.toLowerCase().includes("kepala desa")) || pimpinan[0];
-    const lainnya = pimpinan.filter(p => p.id !== kepalaDesa?.id);
+    const sekdes = pimpinan.find(p => p.posisi.toLowerCase().includes("sekretaris"));
+    const kasiList = pimpinan.filter(p => p.posisi.toLowerCase().includes("seksi"));
+    const kaurList = pimpinan.filter(p => p.posisi.toLowerCase().includes("urusan"));
+
+    
+    
+    const CardNode = ({ p, type }: { p: any, type: 'blue' | 'green' }) => (
+        <button
+            onClick={() => setSelected(p)}
+            className={`flex flex-col justify-center items-center bg-white border-[3px] rounded-xl p-3 text-center w-36 sm:w-48 h-24 transition-all z-10 relative cursor-pointer group ${
+                type === 'blue' 
+                ? 'border-[#1e3a8a] shadow-[4px_4px_0px_#1e3a8a]' 
+                : 'border-[#15803d] shadow-[4px_4px_0px_#15803d]'
+            } ${selected?.id === p.id ? 'ring-4 ring-offset-2 ring-blue-400 scale-105' : 'hover:-translate-y-1 hover:scale-105'}`}
+        >
+            <h3 className={`font-bold text-[10px] sm:text-xs leading-tight mb-1 ${type === 'blue' ? 'text-[#1e3a8a]' : 'text-[#15803d]'}`}>
+                {p.posisi}
+            </h3>
+            <p className="text-gray-800 font-extrabold uppercase text-[10px] sm:text-xs tracking-wide line-clamp-2 px-1">
+                {p.nama}
+            </p>
+        </button>
+    );
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -153,94 +175,70 @@ export default function StrukturOrganisasi() {
                             <div className="w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
                         </div>
                     ) : pimpinan.length > 0 ? (
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                        <div className="flex flex-col items-center">
                             {/* Tree diagram */}
-                            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8">
-                                <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-8">Pemerintahan desa</p>
+                            <div className="w-full overflow-hidden">
+                                <style dangerouslySetInnerHTML={{__html: `
+                                    .org-tree ul { display: flex; justify-content: center; padding-top: 20px; position: relative; padding-left: 0; margin: 0; }
+                                    .org-tree li { display: flex; flex-direction: column; align-items: center; position: relative; padding: 20px 10px 0 10px; list-style-type: none; }
+                                    .org-tree li::before, .org-tree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #1e3a8a; width: 50%; height: 20px; }
+                                    .org-tree li::after { right: auto; left: 50%; border-left: 2px solid #1e3a8a; }
+                                    .org-tree li:only-child::after, .org-tree li:only-child::before { display: none; }
+                                    .org-tree li:only-child { padding-top: 0; }
+                                    .org-tree li:first-child::before, .org-tree li:last-child::after { border: 0 none; }
+                                    .org-tree li:last-child::before { border-right: 2px solid #1e3a8a; border-radius: 0; }
+                                    .org-tree ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #1e3a8a; width: 0; height: 20px; transform: translateX(-50%); }
+                                    .org-tree > ul::before { display: none; }
+                                `}} />
 
-                                {/* Root — Kepala Desa */}
-                                {kepalaDesa && (
-                                    <div className="flex flex-col items-center">
-                                        <button
-                                            onClick={() => setSelected(kepalaDesa)}
-                                            className={`flex flex-col items-center group transition-all ${selected?.id === kepalaDesa.id ? "opacity-100" : "opacity-80 hover:opacity-100"}`}
-                                        >
-                                            <div className={`relative w-20 h-20 rounded-full bg-gradient-to-br ${getColor(kepalaDesa.posisi)} flex items-center justify-center text-white text-xl font-bold shadow-lg ring-4 transition-all ${selected?.id === kepalaDesa.id ? "ring-green-400" : "ring-white"}`}>
-                                                {kepalaDesa.foto
-                                                    ? <img src={kepalaDesa.foto} alt={kepalaDesa.nama} className="w-full h-full object-cover rounded-full" />
-                                                    : getInitials(kepalaDesa.nama)}
-                                            </div>
-                                            <span className="mt-2 text-xs font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                                {kepalaDesa.posisi}
-                                            </span>
-                                        </button>
-
-                                        {/* Connector line to children */}
-                                        {lainnya.length > 0 && (
-                                            <>
-                                                <div className="w-0.5 h-8 bg-gray-300 mt-2" />
-                                                <div className="relative w-full">
-                                                    {/* Horizontal bar */}
-                                                    {lainnya.length > 1 && (
-                                                        <div
-                                                            className="absolute top-0 h-0.5 bg-gray-300"
-                                                            style={{
-                                                                left: `${100 / (lainnya.length * 2)}%`,
-                                                                right: `${100 / (lainnya.length * 2)}%`,
-                                                            }}
-                                                        />
-                                                    )}
-                                                    {/* Children row */}
-                                                    <div className={`grid gap-4 pt-0`} style={{ gridTemplateColumns: `repeat(${Math.min(lainnya.length, 4)}, 1fr)` }}>
-                                                        {lainnya.slice(0, 8).map((p) => (
-                                                            <div key={p.id} className="flex flex-col items-center">
-                                                                <div className="w-0.5 h-6 bg-gray-300" />
-                                                                <button
-                                                                    onClick={() => setSelected(p)}
-                                                                    className={`flex flex-col items-center transition-all ${selected?.id === p.id ? "opacity-100 scale-105" : "opacity-70 hover:opacity-100 hover:scale-105"}`}
-                                                                >
-                                                                    <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${getColor(p.posisi)} flex items-center justify-center text-white text-sm font-bold shadow-md ring-2 transition-all ${selected?.id === p.id ? "ring-green-400" : "ring-white"}`}>
-                                                                        {p.foto
-                                                                            ? <img src={p.foto} alt={p.nama} className="w-full h-full object-cover rounded-full" />
-                                                                            : getInitials(p.nama)}
-                                                                    </div>
-                                                                    <span className="mt-1.5 text-[10px] font-semibold text-gray-500 text-center leading-tight max-w-[70px]">
-                                                                        {p.posisi}
-                                                                    </span>
-                                                                </button>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                    {lainnya.length > 8 && (
-                                                        <p className="text-center text-xs text-gray-400 mt-4">
-                                                            +{lainnya.length - 8} anggota lainnya
-                                                        </p>
-                                                    )}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                )}
+                                <div className="org-tree overflow-x-auto pb-8 pt-4 w-full flex justify-center">
+                                    <ul>
+                                        <li>
+                                            {kepalaDesa && <CardNode p={kepalaDesa} type="blue" />}
+                                            <ul>
+                                                {kasiList.map(kasi => (
+                                                    <li key={kasi.id}>
+                                                        <CardNode p={kasi} type="green" />
+                                                    </li>
+                                                ))}
+                                                {sekdes && (
+                                                    <li>
+                                                        <CardNode p={sekdes} type="blue" />
+                                                        {kaurList.length > 0 && (
+                                                            <ul>
+                                                                {kaurList.map(kaur => (
+                                                                    <li key={kaur.id}>
+                                                                        <CardNode p={kaur} type="blue" />
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+                                                    </li>
+                                                )}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
                             {/* Detail panel */}
                             {selected && (
-                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 sticky top-28">
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 sm:p-8 mt-6 w-full max-w-3xl text-left">
                                     <div className="flex items-start gap-5 mb-6">
-                                        <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${getColor(selected.posisi)} flex items-center justify-center text-white text-2xl font-bold shadow-lg flex-shrink-0`}>
+                                        <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${getColor(selected.posisi)} flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-lg flex-shrink-0`}>
                                             {selected.foto
                                                 ? <img src={selected.foto} alt={selected.nama} className="w-full h-full object-cover rounded-2xl" />
                                                 : getInitials(selected.nama)}
                                         </div>
                                         <div>
                                             <div className="text-green-600 text-sm font-bold mb-1">{selected.posisi}</div>
-                                            <h3 className="text-xl font-extrabold text-gray-900 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                                            <h3 className="text-lg sm:text-xl font-extrabold text-gray-900 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
                                                 {selected.nama}
                                             </h3>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {(selected.periodeAwal || selected.periodeAkhir) && (
                                             <div className="flex items-start gap-3">
                                                 <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -249,14 +247,11 @@ export default function StrukturOrganisasi() {
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Periode</div>
-                                                    <div className="text-gray-700 text-sm font-medium">
-                                                        {selected.periodeAwal} {selected.periodeAkhir && `– ${selected.periodeAkhir}`}
-                                                    </div>
+                                                    <div className="text-xs text-gray-500 font-medium">Masa Jabatan</div>
+                                                    <div className="text-sm font-semibold text-gray-900">{selected.periodeAwal || '-'} s/d {selected.periodeAkhir || 'Sekarang'}</div>
                                                 </div>
                                             </div>
                                         )}
-
                                         {selected.pengalaman && (
                                             <div className="flex items-start gap-3">
                                                 <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -265,28 +260,25 @@ export default function StrukturOrganisasi() {
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Pengalaman</div>
-                                                    <div className="text-gray-700 text-sm">{selected.pengalaman}</div>
+                                                    <div className="text-xs text-gray-500 font-medium">Pengalaman</div>
+                                                    <div className="text-sm font-semibold text-gray-900">{selected.pengalaman}</div>
                                                 </div>
                                             </div>
                                         )}
-
                                         {selected.fokus && (
-                                            <div className="flex items-start gap-3">
+                                            <div className="flex items-start gap-3 md:col-span-2">
                                                 <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
                                                     <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Bidang / Fokus</div>
-                                                    <div className="text-gray-700 text-sm">{selected.fokus}</div>
+                                                    <div className="text-xs text-gray-500 font-medium">Fokus & Tugas Utama</div>
+                                                    <div className="text-sm font-semibold text-gray-900">{selected.fokus}</div>
                                                 </div>
                                             </div>
                                         )}
                                     </div>
-
-                                    {/* Navigation buttons */}
                                     <div className="flex gap-2 mt-8 pt-6 border-t border-gray-100">
                                         <button
                                             onClick={() => {
@@ -296,7 +288,7 @@ export default function StrukturOrganisasi() {
                                             disabled={pimpinan.indexOf(selected) === 0}
                                             className="flex-1 py-2 border border-gray-200 rounded-xl text-sm text-gray-500 hover:bg-gray-50 disabled:opacity-30 transition-colors"
                                         >
-                                            ← Sebelumnya
+                                            <span dangerouslySetInnerHTML={{ __html: '&larr; Sebelumnya' }} />
                                         </button>
                                         <button
                                             onClick={() => {
@@ -306,13 +298,13 @@ export default function StrukturOrganisasi() {
                                             disabled={pimpinan.indexOf(selected) === pimpinan.length - 1}
                                             className="flex-1 py-2 border border-gray-200 rounded-xl text-sm text-gray-500 hover:bg-gray-50 disabled:opacity-30 transition-colors"
                                         >
-                                            Berikutnya →
+                                            <span dangerouslySetInnerHTML={{ __html: 'Berikutnya &rarr;' }} />
                                         </button>
                                     </div>
                                 </div>
                             )}
                         </div>
-                    ) : (
+) : (
                         <div className="text-center py-24 bg-white rounded-2xl border border-gray-100">
                             <div className="text-6xl mb-4">👥</div>
                             <h3 className="text-xl font-bold text-gray-600 mb-2">Belum Ada Data</h3>
