@@ -1,0 +1,126 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agenda {
+  id              String   @id @default(cuid())
+  judulKegiatan   String
+  tanggalKegiatan DateTime
+  waktuMulai      String
+  waktuSelesai    String
+  tempatKegiatan  String
+  penyelenggara   String
+  createdAt       DateTime @default(now())
+}
+
+model Book {
+  id          String   @id @default(cuid())
+  title       String
+  author      String
+  description String?
+  createdAt   DateTime @default(now())
+}
+
+model Photo {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+}
+
+model Hukum {
+  id          String   @id @default(cuid())
+  namaKategori String
+  deskripsi   String?
+  createdAt   DateTime @default(now())
+}
+
+model KegiatanDesa {
+  id              String   @id @default(cuid())
+  judulKegiatan   String
+  tanggalKegiatan DateTime
+  waktuMulai      String
+  waktuSelesai    String
+  tempatKegiatan  String
+  penyelenggara   String
+  foto            String?
+  narasi          String?
+  createdAt       DateTime @default(now())
+}
+
+model User {
+  id       String   @id @default(cuid())
+  name     String
+  email    String   @unique
+  password String   @default("")
+  role     String?
+  createdAt DateTime @default(now())
+}
+
+model KepalaKeluarga {
+  id              String   @id @default(cuid())
+  nama            String
+  jenisKelamin    String
+  tempatLahir     String?
+  tanggalLahir    DateTime?
+  umur            Int?
+  nik             String   @unique
+  noKK            String   @unique
+  pekerjaan       String?
+  pendidikan      String?
+  alamat          String
+  createdAt       DateTime @default(now())
+  anggota         AnggotaKeluarga[]
+}
+
+model AnggotaKeluarga {
+  id              String   @id @default(cuid())
+  nama            String
+  jenisKelamin    String
+  tempatLahir     String?
+  tanggalLahir    DateTime?
+  umur            Int?
+  nik             String?
+  pekerjaan       String?
+  pendidikan      String?
+  hubungan        String
+  kepalaKeluargaId String
+  kepalaKeluarga  KepalaKeluarga @relation(fields: [kepalaKeluargaId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+}
+
+model PimpinanOrganisasiDesa {
+  id              String   @id @default(cuid())
+  nama            String
+  posisi          String
+  periodeAwal     String?
+  periodeAkhir    String?
+  pengalaman      String?
+  fokus           String?
+  foto            String?
+  createdAt       DateTime @default(now())
+}
+
+model ReportData {
+  id              String   @id @default(cuid())
+  judul           String
+  waktuTerbit     DateTime?
+  deskripsi       String?
+  kategori        String?
+  filePath        String?
+  createdAt       DateTime @default(now())
+}
+
+model TahunAnggaranAPBD {
+  id                    String   @id @default(cuid())
+  tahun                 String
+  namaPetugasKeuangan   String?
+  createdAt             DateTime @default(now())
+}
