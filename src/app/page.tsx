@@ -267,7 +267,7 @@ function HeroSlideshow() {
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 const staggerContainer: Variants = {
@@ -385,7 +385,7 @@ export default function Home() {
                     <motion.div 
                       className="w-24 h-24 flex items-center justify-center mx-auto mb-6"
                       animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" as const }}
+                      transition={{ duration: 3, repeat: Infinity }}
                     >
                       <img
                         src="/logodescan.png"
