@@ -55,7 +55,7 @@ export default function Navbar() {
         <div className="flex items-center">
           {/* Logo - kiri */}
           <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-            <div className="w-10 h-10 flex items-center justify-center">
+            <div className="w-15 h-15 flex items-center justify-center">
               <img
                 src="/logolabura.png"
                 alt="Logo Labura"
