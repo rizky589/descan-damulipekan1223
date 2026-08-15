@@ -209,14 +209,14 @@ function HeroSlideshow() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   style={{ willChange: "transform, opacity" }}
-                  className="w-full max-w-5xl mx-auto p-10 sm:p-16 rounded-[2rem] bg-black/40 border border-white/10 shadow-2xl"
+                  className="w-full max-w-5xl mx-auto p-6 sm:p-12 lg:p-16 rounded-[2rem] bg-black/40 border border-white/10 shadow-2xl"
                 >
                   <motion.h1
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
                     style={{ willChange: "transform, opacity" }}
-                    className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight drop-shadow-md"
+                    className="text-3xl sm:text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight drop-shadow-md"
                   >
                     <span style={{ fontFamily: "Poppins, sans-serif" }}>{slide.title}</span>
                     <br />
@@ -476,7 +476,7 @@ export default function Home() {
             <motion.div variants={fadeInUp} className="flex justify-center lg:justify-end">
               <motion.div 
                 whileHover={{ scale: 1.02, y: -5 }}
-                className="bg-white rounded-[2rem] shadow-2xl p-8 max-w-xs w-full text-center relative overflow-hidden animate-float"
+                className="bg-white rounded-[2rem] shadow-2xl p-6 sm:p-8 max-w-xs w-full text-center relative overflow-hidden animate-float"
               >
                 {/* Decorative circle */}
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-50 rounded-full" />
