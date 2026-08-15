@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Desa Damuli Pekan - Portal Resmi Desa",
@@ -13,7 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body>{children}</body>
+      <body>{children}
+        <ScrollToTop /></body>
     </html>
   );
 }

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
@@ -20,6 +20,7 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "swiper": "^14.1.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
