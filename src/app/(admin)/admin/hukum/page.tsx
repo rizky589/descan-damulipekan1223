@@ -18,10 +18,10 @@ export default function HukumPage() {
   useEffect(() => {
     const fetchHukums = async () => {
       try {
-        const response = await fetch("/api/hukum");
+        const response = await fetch("/api/hukum?all=true");
         if (response.ok) {
           const data = await response.json();
-          setHukums(data);
+          setHukums(Array.isArray(data) ? data : (data?.data || []));
         } else {
           console.error("Failed to fetch hukums");
         }

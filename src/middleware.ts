@@ -1,24 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthFromRequest } from "@/lib/auth";
 
-// Routes yang WAJIB login untuk akses
+// Routes yang WAJIB login untuk akses (Semua method, termasuk GET)
 const PROTECTED_API_ROUTES = [
-  "/api/kepala-keluarga",
   "/api/anggota-keluarga",
   "/api/users",
   "/api/upload",
-  "/api/pimpinan-organisasi-desa",
-  "/api/tahun-anggaran-apbd",
-  "/api/report-data",
 ];
 
-// Method yang boleh tanpa auth (read-only publik)
+// Method yang boleh tanpa auth (hanya GET yang publik, POST/PUT/DELETE wajib login)
 const PUBLIC_READ_ROUTES = [
   "/api/kegiatan-desa",
   "/api/agenda",
   "/api/photos",
   "/api/hukum",
   "/api/books",
+  "/api/pimpinan-organisasi-desa",
+  "/api/tahun-anggaran-apbd",
+  "/api/report-data",
 ];
 
 // Halaman admin yang wajib login
@@ -35,6 +34,24 @@ export async function middleware(request: NextRequest) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
+  // ── Custom Rule for Kepala Keluarga ──────────────────────────────────────────
+  if (pathname.startsWith("/api/kepala-keluarga")) {
+    // Allow public GET ONLY if it's requesting the count ?count=true
+    if (method === "GET" && request.nextUrl.searchParams.get("count") === "true") {
+      return NextResponse.next();
+    }
+    
+    // Otherwise (full data or POST/PUT/DELETE), require auth
+    const auth = await getAuthFromRequest(request);
+    if (!auth) {
+      return NextResponse.json(
+        { error: "Unauthorized. Akses data spesifik warga dilindungi." },
+        { status: 401 }
+      );
     }
     return NextResponse.next();
   }

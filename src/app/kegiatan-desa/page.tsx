@@ -34,7 +34,7 @@ export default function KegiatanDesaPage() {
   useEffect(() => {
     fetch("/api/kegiatan-desa")
       .then((r) => r.json())
-      .then((data) => setKegiatan(Array.isArray(data) ? data : []))
+      .then((data) => setKegiatan(Array.isArray(data) ? data : (data?.data || [])))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

@@ -22,10 +22,10 @@ export default function AgendaPage() {
   useEffect(() => {
     const fetchAgendas = async () => {
       try {
-        const response = await fetch("/api/agenda");
+        const response = await fetch("/api/agenda?all=true");
         if (response.ok) {
           const data = await response.json();
-          setAgendas(data);
+          setAgendas(Array.isArray(data) ? data : (data?.data || []));
         } else {
           console.error("Failed to fetch agendas");
         }

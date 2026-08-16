@@ -47,7 +47,7 @@ export default function AgendaDesa() {
     useEffect(() => {
         fetch("/api/agenda")
             .then((r) => r.json())
-            .then((data) => setAgenda(Array.isArray(data) ? data : []))
+            .then((data) => setAgenda(Array.isArray(data) ? data : (data?.data || [])))
             .catch(() => { })
             .finally(() => setLoading(false));
     }, []);

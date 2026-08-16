@@ -48,7 +48,7 @@ export default function StrukturOrganisasi() {
         fetch("/api/pimpinan-organisasi-desa")
             .then((r) => r.json())
             .then((data) => {
-                const list = Array.isArray(data) ? data : [];
+                const list = Array.isArray(data) ? data : (data?.data || []);
                 setPimpinan(list);
                 if (list.length > 0) setSelected(list[0]);
             })
@@ -75,9 +75,9 @@ export default function StrukturOrganisasi() {
             <h3 className={`font-bold text-[10px] sm:text-xs leading-tight mb-1 ${type === 'blue' ? 'text-[#1e3a8a]' : 'text-[#15803d]'}`}>
                 {p.posisi}
             </h3>
-            <p className="text-gray-800 font-extrabold uppercase text-[10px] sm:text-xs tracking-wide line-clamp-2 px-1">
+            <div className="text-gray-800 font-extrabold uppercase text-[10px] sm:text-xs tracking-wide line-clamp-2 px-1">
                 {p.nama}
-            </p>
+            </div>
         </button>
     );
 
@@ -297,7 +297,7 @@ export default function StrukturOrganisasi() {
                         </div>
 ) : (
                         <div className="text-center py-24 bg-white rounded-2xl border border-gray-100">
-                            <div className="text-6xl mb-4">👥</div>
+                            <div className="text-6xl mb-4">&#128101;</div>
                             <h3 className="text-xl font-bold text-gray-600 mb-2">Belum Ada Data</h3>
                             <p className="text-gray-400">Data pimpinan organisasi akan ditampilkan di sini setelah diinput oleh admin</p>
                         </div>

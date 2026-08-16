@@ -1,15 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const hukums = await db.hukum.findMany({
-      orderBy: {
-        createdAt: 'desc'
-      }
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    let limit = parseInt(searchParams.get("limit") || "10");
+    if (searchParams.get("all") === "true") limit = 999999;
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      db.hukum.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' }
+      }),
+      db.hukum.count()
+    ]);
+
+    return NextResponse.json({
+      data,
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) }
     });
-    
-    return NextResponse.json(hukums);
   } catch (error) {
     console.error("Error fetching hukums:", error);
     return NextResponse.json(

@@ -27,7 +27,7 @@ export default function JDIH() {
     useEffect(() => {
         fetch("/api/hukum")
             .then((r) => r.json())
-            .then((data) => setHukums(Array.isArray(data) ? data : []))
+            .then((data) => setHukums(Array.isArray(data) ? data : (data?.data || [])))
             .catch(() => { })
             .finally(() => setLoading(false));
     }, []);

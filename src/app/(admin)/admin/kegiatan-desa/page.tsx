@@ -22,10 +22,10 @@ export default function KegiatanDesaPage() {
   useEffect(() => {
     const fetchKegiatanDesas = async () => {
       try {
-        const response = await fetch("/api/kegiatan-desa");
+        const response = await fetch("/api/kegiatan-desa?all=true");
         if (response.ok) {
           const data = await response.json();
-          setKegiatanDesas(data);
+          setKegiatanDesas(Array.isArray(data) ? data : (data?.data || []));
         } else {
           console.error("Failed to fetch kegiatan desa");
         }

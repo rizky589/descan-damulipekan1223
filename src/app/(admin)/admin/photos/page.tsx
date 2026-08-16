@@ -19,10 +19,10 @@ export default function PhotosPage() {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await fetch("/api/photos");
+        const response = await fetch("/api/photos?all=true");
         if (response.ok) {
           const data = await response.json();
-          setPhotos(data);
+          setPhotos(Array.isArray(data) ? data : (data?.data || []));
         } else {
           console.error("Failed to fetch photos");
         }

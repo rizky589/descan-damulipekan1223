@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function Footer() {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2026;
 
     return (
         <footer className="bg-gray-900 text-white">
@@ -128,7 +128,7 @@ export default function Footer() {
             {/* Bottom bar */}
             <div className="border-t border-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-sm" suppressHydrationWarning>
                         © {currentYear} Portal Desa Damuli Pekan. All rights reserved.
                     </p>
                     <div className="flex items-center gap-2">

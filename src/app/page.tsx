@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { m, AnimatePresence, Variants } from "framer-motion";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
@@ -204,14 +204,14 @@ function HeroSlideshow() {
             className={`transition-all duration-700 ${idx === current ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 absolute inset-0 pointer-events-none"}`}
           >
             {idx === current && (
-                <motion.div 
+                <m.div 
                   initial={{ opacity: 0, x: -40 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   style={{ willChange: "transform, opacity" }}
                   className="w-full max-w-5xl mx-auto p-6 sm:p-12 lg:p-16 rounded-[2rem] bg-black/40 border border-white/10 shadow-2xl"
                 >
-                  <motion.h1
+                  <m.h1
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
@@ -221,8 +221,8 @@ function HeroSlideshow() {
                     <span style={{ fontFamily: "Poppins, sans-serif" }}>{slide.title}</span>
                     <br />
                     <span className="text-green-400 drop-shadow-md" style={{ fontFamily: "Poppins, sans-serif" }}>{slide.highlight}</span>
-                  </motion.h1>
-                  <motion.p 
+                  </m.h1>
+                  <m.p 
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5, duration: 0.8 }}
@@ -230,8 +230,8 @@ function HeroSlideshow() {
                     className="text-lg sm:text-xl text-white/95 max-w-3xl mx-auto leading-relaxed drop-shadow-sm font-medium"
                   >
                     {slide.subtitle}
-                  </motion.p>
-                </motion.div>
+                  </m.p>
+                </m.div>
             )}
           </div>
         ))}
@@ -305,8 +305,8 @@ export default function Home() {
           kegRes.json(),
           photoRes.json(),
         ]);
-        setKegiatan(Array.isArray(kegData) ? kegData : []);
-        setPhotos(Array.isArray(photoData) ? photoData.slice(0, 6) : []);
+        setKegiatan(Array.isArray(kegData) ? kegData : (kegData?.data || []));
+        setPhotos(Array.isArray(photoData) ? photoData.slice(0, 6) : (photoData?.data?.slice(0, 6) || []));
       } catch {
         // silently fail
       } finally {
@@ -325,7 +325,7 @@ export default function Home() {
           agendaRes.json(),
           kkRes.json(),
         ]);
-        setAgenda(Array.isArray(agendaData) ? agendaData.slice(0, 4) : []);
+        setAgenda(Array.isArray(agendaData) ? agendaData.slice(0, 4) : (agendaData?.data?.slice(0, 4) || []));
         setKkCount(typeof kkData?.count === "number" ? kkData.count : null);
       } catch {
         // silently fail
@@ -344,7 +344,7 @@ export default function Home() {
 
 
       {/* ═══════════════════ TENTANG DESA ═══════════════════ */}
-      <motion.section 
+      <m.section 
         id="tentang" 
         className="py-20 bg-white"
         initial="hidden"
@@ -353,16 +353,16 @@ export default function Home() {
         variants={staggerContainer}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeInUp} className="text-center mb-12">
+          <m.div variants={fadeInUp} className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Tentang Portal Desa
             </h2>
             <div className="mt-3 mx-auto w-16 h-1 bg-green-500 rounded-full" />
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left content */}
-            <motion.div variants={fadeInUp}>
+            <m.div variants={fadeInUp}>
               <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Membangun Desa Digital<br />
                 <span className="gradient-text">yang Maju & Transparan</span>
@@ -377,7 +377,7 @@ export default function Home() {
               {/* Advantages grid */}
               <div className="grid grid-cols-2 gap-4">
                 {advantages.map((adv, i) => (
-                  <motion.div 
+                  <m.div 
                     key={i} 
                     variants={fadeInUp}
                     whileHover={{ scale: 1.02, backgroundColor: "#f0fdf4" }}
@@ -388,18 +388,18 @@ export default function Home() {
                       <div className="font-semibold text-gray-800 text-sm mb-1">{adv.title}</div>
                       <div className="text-gray-500 text-xs leading-relaxed">{adv.desc}</div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Right visual */}
-            <motion.div variants={fadeInUp} className="relative">
+            <m.div variants={fadeInUp} className="relative">
               <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-green-500 to-emerald-700 aspect-[4/3] shadow-2xl">
                 {/* Decorative content inside the visual */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white p-10">
-                    <motion.div 
+                    <m.div 
                       className="w-24 h-24 flex items-center justify-center mx-auto mb-6"
                       animate={{ y: [0, -10, 0] }}
                       transition={{ duration: 3, repeat: Infinity }}
@@ -409,18 +409,18 @@ export default function Home() {
                         alt="Logo Descan"
                         className="w-24 h-24 object-contain"
                       />
-                    </motion.div>
+                    </m.div>
                     <h3 className="text-2xl font-bold mb-2">Desa Damuli Pekan</h3>
 
                     <div className="mt-8 grid grid-cols-2 gap-3">
                       {["Pelayanan", "Transparansi", "Digital", "Terpercaya"].map((tag) => (
-                        <motion.div 
+                        <m.div 
                           key={tag} 
                           whileHover={{ scale: 1.05 }}
                           className="bg-white/15 rounded-lg py-2 px-3 text-sm font-medium backdrop-blur-sm"
                         >
                           {tag}
-                        </motion.div>
+                        </m.div>
                       ))}
                     </div>
                   </div>
@@ -429,13 +429,13 @@ export default function Home() {
                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full" />
                 <div className="absolute -bottom-10 -left-10 w-52 h-52 bg-emerald-900/20 rounded-full" />
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
-      </motion.section>
+      </m.section>
 
       {/* ═══════════════════ KOLABORASI BPS ═══════════════════ */}
-      <motion.section 
+      <m.section 
         className="py-24 overflow-hidden" 
         style={{ background: "linear-gradient(135deg, #1a3a6e 0%, #1e4d8c 50%, #1a3a6e 100%)" }}
         initial="hidden"
@@ -445,16 +445,16 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section title */}
-          <motion.div variants={fadeInUp} className="text-center mb-14">
+          <m.div variants={fadeInUp} className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Kolaborasi dengan BPS
             </h2>
             <div className="mt-3 mx-auto w-16 h-1 bg-orange-400 rounded-full" />
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left - Context & Features */}
-            <motion.div variants={fadeInUp}>
+            <m.div variants={fadeInUp}>
               <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 mb-8 shadow-xl">
                 <p className="text-blue-100 text-lg leading-relaxed">
                   Desa Damuli Pekan dengan bangga bermitra bersama <span className="text-white font-semibold">Badan Pusat Statistik (BPS)</span> melalui program{" "}
@@ -469,21 +469,21 @@ export default function Home() {
                   { icon: "", label: "Pengambilan Keputusan Cerdas" },
                   { icon: "", label: "Pemberdayaan Masyarakat" }
                 ].map((f) => (
-                  <motion.div
+                  <m.div
                     key={f.label}
                     whileHover={{ scale: 1.05, backgroundColor: "rgba(37, 99, 235, 0.5)" }}
                     className="flex items-center gap-3 bg-blue-800/40 border border-blue-600/30 rounded-xl px-4 py-3 text-blue-100 text-sm font-medium backdrop-blur-sm transition-colors cursor-default"
                   >
                     <span className="text-lg">{f.icon}</span>
                     {f.label}
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Right — BPS card */}
-            <motion.div variants={fadeInUp} className="flex justify-center lg:justify-end">
-              <motion.div 
+            <m.div variants={fadeInUp} className="flex justify-center lg:justify-end">
+              <m.div 
                 whileHover={{ scale: 1.02, y: -5 }}
                 className="bg-white rounded-[2rem] shadow-2xl p-6 sm:p-8 max-w-xs w-full text-center relative overflow-hidden animate-float"
               >
@@ -515,28 +515,23 @@ export default function Home() {
                   <p className="text-gray-500 text-xs leading-relaxed mb-5">
                     Mitra resmi dalam pengembangan sistem informasi desa berbasis data statistik yang akurat dan terpercaya
                   </p>
-                  <motion.div 
+                  <m.div 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold px-5 py-2.5 rounded-full shadow-lg shadow-orange-200 cursor-pointer"
                   >
-                    <motion.span 
-                      animate={{ scale: [1, 1.2, 1] }} 
-                      transition={{ repeat: Infinity, duration: 1.5 }}
-                    >
-                      ❤️
-                    </motion.span> 
+                    <m.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}>&#10024;</m.span> 
                     Desa Cinta Statistik
-                  </motion.div>
+                  </m.div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           </div>
         </div>
-      </motion.section>
+      </m.section>
 
       {/* ═══════════════════ LAYANAN ═══════════════════ */}
-      <motion.section 
+      <m.section 
         id="layanan" 
         className="py-24 bg-gray-50"
         initial="hidden"
@@ -545,20 +540,20 @@ export default function Home() {
         variants={staggerContainer}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeInUp} className="text-center mb-16">
+          <m.div variants={fadeInUp} className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Layanan Digital <span className="gradient-text">Desa Damuli Pekan</span>
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
               Berbagai layanan digital yang tersedia untuk memudahkan akses masyarakat terhadap informasi dan administrasi desa
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((svc, i) => (
-              <motion.div key={i} variants={fadeInUp}>
+              <m.div key={i} variants={fadeInUp}>
                 <Link href={svc.href} className="block h-full">
-                  <motion.div 
+                  <m.div 
                     whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
                     className="card-hover bg-white rounded-2xl p-7 border border-gray-100 h-full flex flex-col items-start"
                   >
@@ -573,18 +568,18 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
                     </div>
-                  </motion.div>
+                  </m.div>
                 </Link>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
-      </motion.section>
+      </m.section>
 
 
 
       {/* ═══════════════════ AGENDA ═══════════════════ */}
-      <motion.section 
+      <m.section 
         className="py-24 bg-gradient-to-br from-green-900 to-emerald-800 relative overflow-hidden"
         initial="hidden"
         whileInView="visible"
@@ -597,20 +592,20 @@ export default function Home() {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-16 gap-4">
-            <motion.div variants={fadeInUp}>
+            <m.div variants={fadeInUp}>
               <h2 className="text-3xl md:text-4xl font-extrabold text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Jadwal Kegiatan Desa
               </h2>
               <div className="mt-3 w-16 h-1 bg-green-400 rounded-full" />
-            </motion.div>
-            <motion.div variants={fadeInUp}>
+            </m.div>
+            <m.div variants={fadeInUp}>
               <Link href="/agenda-desa" className="inline-flex items-center gap-2 text-white bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2.5 rounded-full font-medium transition-all backdrop-blur-sm">
                 Lihat Semua
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
-            </motion.div>
+            </m.div>
           </div>
 
           {loading ? (
@@ -620,7 +615,7 @@ export default function Home() {
           ) : agenda.length > 0 ? (
             <div className="space-y-4">
               {agenda.map((item, index) => (
-                <motion.div 
+                <m.div 
                   key={item.id} 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -630,8 +625,8 @@ export default function Home() {
                 >
                   {/* Date badge */}
                   <div className="flex-shrink-0 bg-white rounded-2xl p-3 text-center min-w-[64px] shadow-sm">
-                    <div className="text-xs font-bold text-green-700 uppercase">{formatMonth(item.tanggalKegiatan)}</div>
-                    <div className="text-2xl font-extrabold text-gray-800 leading-tight">{formatDay(item.tanggalKegiatan)}</div>
+                    <div className="text-xs font-bold text-green-700 uppercase" suppressHydrationWarning>{formatMonth(item.tanggalKegiatan)}</div>
+                    <div className="text-2xl font-extrabold text-gray-800 leading-tight" suppressHydrationWarning>{formatDay(item.tanggalKegiatan)}</div>
                   </div>
                   {/* Details */}
                   <div className="flex-1 min-w-0">
@@ -655,7 +650,7 @@ export default function Home() {
                   <div className="hidden sm:block flex-shrink-0">
                     <span className="bg-white/15 text-white/80 text-xs px-3 py-1.5 rounded-lg border border-white/10">{item.penyelenggara}</span>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           ) : (
@@ -666,10 +661,10 @@ export default function Home() {
             </div>
           )}
         </div>
-      </motion.section>
+      </m.section>
 
       {/* ═══════════════════ GALERI FOTO ═══════════════════ */}
-      <motion.section 
+      <m.section 
         className="py-24 bg-gray-50"
         initial="hidden"
         whileInView="visible"
@@ -677,14 +672,14 @@ export default function Home() {
         variants={staggerContainer}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div variants={fadeInUp} className="text-center mb-16">
+          <m.div variants={fadeInUp} className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Foto Kegiatan <span className="gradient-text">Desa</span>
             </h2>
             <p className="text-gray-500 mt-3 max-w-md mx-auto text-sm">
               Momen berharga dari berbagai kegiatan dan pembangunan Desa Damuli Pekan
             </p>
-          </motion.div>
+          </m.div>
 
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -705,7 +700,7 @@ export default function Home() {
                 { id: "5", title: "Kegiatan Posyandu", imageUrl: "/5.jpg", description: "Pemeriksaan kesehatan rutin untuk balita dan lansia" },
                 { id: "6", title: "Pemberdayaan UMKM", imageUrl: "/6.jpg", description: "Pelatihan kewirausahaan untuk meningkatkan ekonomi keluarga" },
               ]) as any[]).map((photo: any, i) => (
-                <motion.div 
+                <m.div 
                   key={photo.id} 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -740,15 +735,15 @@ export default function Home() {
                       )}
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           )}
         </div>
-      </motion.section>
+      </m.section>
 
       {/* ═══════════════════ CTA BANNER ═══════════════════ */}
-      <motion.section 
+      <m.section 
         className="py-20 bg-white"
         initial="hidden"
         whileInView="visible"
@@ -756,7 +751,7 @@ export default function Home() {
         variants={staggerContainer}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div 
+          <m.div 
             variants={fadeInUp}
             whileHover={{ scale: 1.01 }}
             className="bg-gradient-to-br from-green-600 to-emerald-700 rounded-3xl p-12 shadow-2xl relative overflow-hidden"
@@ -780,9 +775,9 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
-      </motion.section>
+      </m.section>
 
       <Footer />
     </div>

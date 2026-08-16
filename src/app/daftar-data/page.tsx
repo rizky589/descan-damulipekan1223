@@ -46,7 +46,7 @@ export default function DaftarData() {
     useEffect(() => {
         fetch("/api/report-data")
             .then((r) => r.json())
-            .then((data) => setReports(Array.isArray(data) ? data : []))
+            .then((data) => setReports(Array.isArray(data) ? data : (data?.data || [])))
             .catch(() => { })
             .finally(() => setLoading(false));
     }, []);

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/ScrollToTop";
+import MotionProvider from "@/components/MotionProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,10 +29,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${inter.variable} ${poppins.variable}`}>
-      <body className={inter.className}>
-        {children}
-        <ScrollToTop />
+    <html lang="id" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
+        <MotionProvider>
+          {children}
+          <ScrollToTop />
+        </MotionProvider>
       </body>
     </html>
   );
