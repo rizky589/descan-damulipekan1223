@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap');
+/* Fonts now loaded via next/font in layout.tsx (self-hosted, faster) */
 @import "tailwindcss";
 @import "swiper/css";
 @import "swiper/css/effect-coverflow";
@@ -6,6 +6,7 @@
 
 :root {
   --background: #ffffff;
+  font-family: var(--font-inter, system-ui, sans-serif);
   --foreground: #171717;
   --primary: #16a34a;
   --primary-dark: #15803d;

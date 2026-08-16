@@ -294,32 +294,45 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    // Priority 1: Load kegiatan & photos first (visible content above fold)
+    const fetchPrimary = async () => {
       try {
-        const [kegRes, agendaRes, photoRes, kkRes] = await Promise.all([
+        const [kegRes, photoRes] = await Promise.all([
           fetch("/api/kegiatan-desa"),
-          fetch("/api/agenda"),
           fetch("/api/photos"),
-          fetch("/api/kepala-keluarga"),
         ]);
-        const [kegData, agendaData, photoData, kkData] = await Promise.all([
+        const [kegData, photoData] = await Promise.all([
           kegRes.json(),
-          agendaRes.json(),
           photoRes.json(),
-          kkRes.json(),
         ]);
         setKegiatan(Array.isArray(kegData) ? kegData : []);
-        setAgenda(Array.isArray(agendaData) ? agendaData.slice(0, 4) : []);
         setPhotos(Array.isArray(photoData) ? photoData.slice(0, 6) : []);
-        setKkCount(Array.isArray(kkData) ? kkData.length : null);
       } catch {
-        // silently fail — will show fallback UI
+        // silently fail
       } finally {
-        setLoading(false);
+        setLoading(false); // show page content even if secondary fails
       }
     };
 
-    fetchData();
+    // Priority 2: Load agenda & KK count after primary (below fold)
+    const fetchSecondary = async () => {
+      try {
+        const [agendaRes, kkRes] = await Promise.all([
+          fetch("/api/agenda"),
+          fetch("/api/kepala-keluarga?count=true"), // hanya jumlah, bukan semua data
+        ]);
+        const [agendaData, kkData] = await Promise.all([
+          agendaRes.json(),
+          kkRes.json(),
+        ]);
+        setAgenda(Array.isArray(agendaData) ? agendaData.slice(0, 4) : []);
+        setKkCount(typeof kkData?.count === "number" ? kkData.count : null);
+      } catch {
+        // silently fail
+      }
+    };
+
+    fetchPrimary().then(() => fetchSecondary());
   }, []);
 
   return (

@@ -110,7 +110,7 @@ export default function KontakPage() {
               <div>
                 <h3 className="text-xl font-bold mb-3">Kontak</h3>
                 <p className="text-sm leading-relaxed opacity-90">
-                  Jln. Sisingamangaraja No. 1, Desa Damuli Pekan, Kecamatan Kualuh Selatan, Kabupaten Labuhanbatu Utara, Sumatera Utara
+                  Jln. Lintas Sumatra No. 1, Desa Damuli Pekan, Kecamatan Kualuh Selatan, Kabupaten Labuhanbatu Utara, Sumatera Utara
                 </p>
               </div>
               <div>

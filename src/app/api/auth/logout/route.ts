@@ -1,28 +1,19 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
+import { COOKIE_NAME } from "@/lib/auth";
 
-export async function POST() {
-  try {
-    const response = NextResponse.json({ success: true, message: "Logout successful" });
-    
-    // Clear any auth cookies
-    response.cookies.set("auth-token", "", {
-      httpOnly: true,
-      expires: new Date(0),
-      path: "/",
-    });
-    
-    response.cookies.set("session", "", {
-      httpOnly: true,
-      expires: new Date(0),
-      path: "/",
-    });
+export async function POST(_request: NextRequest) {
+  const response = NextResponse.json({ success: true, message: "Logout berhasil" });
 
-    return response;
-  } catch (error) {
-    console.error("Error during logout:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to logout" },
-      { status: 500 }
-    );
-  }
+  // Clear the JWT cookie
+  response.cookies.set({
+    name: COOKIE_NAME,
+    value: "",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 0, // Expire immediately
+    path: "/",
+  });
+
+  return response;
 }

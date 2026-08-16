@@ -1,16 +1,19 @@
 import { NextResponse, NextRequest } from "next/server";
+import { getAuthFromRequest } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
-  // Check if auth cookie exists
-  const cookieHeader = request.headers.get('cookie');
-  const hasAuthCookie = cookieHeader?.includes('auth-token=authenticated');
-  
-  if (!hasAuthCookie) {
-    return NextResponse.json(
-      { authenticated: false },
-      { status: 401 }
-    );
+  const auth = await getAuthFromRequest(request);
+
+  if (!auth) {
+    return NextResponse.json({ authenticated: false }, { status: 401 });
   }
-  
-  return NextResponse.json({ authenticated: true });
+
+  return NextResponse.json({
+    authenticated: true,
+    user: {
+      userId: auth.userId,
+      email: auth.email,
+      role: auth.role,
+    },
+  });
 }

@@ -6,11 +6,17 @@ import bcrypt from "bcryptjs";
 export async function GET() {
   try {
     const users = await db.user.findMany({
-      orderBy: {
-        createdAt: 'desc'
-      }
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        // password di-exclude — tidak pernah dikembalikan ke client
+      },
     });
-    
+
     return NextResponse.json(users);
   } catch (error) {
     console.error("Error fetching users:", error);
