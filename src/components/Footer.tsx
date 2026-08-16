@@ -71,7 +71,7 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {[
                                 { href: "/apbdes", label: "APBDes" },
-                                { href: "/daftar-data", label: "Daftar Data" },
+                                
                                 { href: "/struktur-organisasi", label: "Pimpinan Desa" },
                                 { href: "/jdih", label: "Peraturan Desa" },
                                 { href: "/agenda-desa", label: "Kegiatan Desa" },

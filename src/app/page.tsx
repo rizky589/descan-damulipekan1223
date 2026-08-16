@@ -115,15 +115,15 @@ const services = [
     desc: "Data kependudukan, ekonomi, dan sosial desa untuk mendukung perencanaan pembangunan.",
     color: "from-teal-500 to-teal-600",
     bg: "bg-teal-50",
-    href: "/daftar-data",
+    href: "/publikasi-statistik",
   },
 ];
 
 const advantages = [
-  { icon: "🏛️", title: "Pelayanan Terpadu", desc: "Layanan satu pintu untuk kemudahan masyarakat" },
+  { icon: "⭐", title: "Pelayanan Terpadu", desc: "Layanan satu pintu untuk kemudahan masyarakat" },
   { icon: "🔍", title: "Transparansi", desc: "Informasi yang akurat dan dapat diakses publik" },
   { icon: "📱", title: "Akses Digital", desc: "Platform responsive untuk semua perangkat" },
-  { icon: "🔒", title: "Keamanan Data", desc: "Perlindungan data dengan teknologi terkini" },
+  { icon: "🛡️", title: "Keamanan Data", desc: "Perlindungan data dengan teknologi terkini" },
 ];
 
 function formatDate(dateStr: string) {
