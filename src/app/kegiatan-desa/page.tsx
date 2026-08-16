@@ -98,7 +98,7 @@ export default function KegiatanDesaPage() {
                   {/* Photo */}
                   <div className="relative h-56 overflow-hidden bg-gradient-to-br from-green-400 to-emerald-600">
                     {k.foto ? (
-                      <img src={k.foto} alt={k.judulKegiatan} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                      <img src={k.foto} alt={k.judulKegiatan} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <svg className="w-16 h-16 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,7 +127,7 @@ export default function KegiatanDesaPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                       {k.tempatKegiatan}
-                      <span className="mx-1">·</span>
+                      <span className="mx-1">&bull;</span>
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
@@ -186,8 +186,8 @@ export default function KegiatanDesaPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setSelected(null)}>
           <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
             {selected.foto && (
-              <div className="h-64 overflow-hidden rounded-t-3xl">
-                <img src={selected.foto} alt={selected.judulKegiatan} className="w-full h-full object-cover object-top" />
+              <div className="w-full overflow-hidden rounded-t-3xl bg-gray-100 flex items-center justify-center">
+                <img src={selected.foto} alt={selected.judulKegiatan} className="w-full max-h-96 object-contain" />
               </div>
             )}
             <div className="p-8">
